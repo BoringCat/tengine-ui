@@ -1,0 +1,4 @@
+.pnpm-store
+Dockerfile
+.git*
+/data/

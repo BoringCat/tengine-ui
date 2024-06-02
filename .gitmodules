@@ -1,0 +1,3 @@
+[submodule "nginx-ui"]
+	path = nginx-ui
+	url = https://github.com/0xJacky/nginx-ui.git
