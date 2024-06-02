@@ -67,8 +67,6 @@ RUN set -xe\
  --http-uwsgi-temp-path="/var/cache/nginx/uwsgi_temp"\
  --http-scgi-temp-path="/var/cache/nginx/scgi_temp"\
  ${TENGINE_BUILDFLAG}\
- --add-module=modules/ngx_brotli\
- --add-module=modules/ngx_cache_purge\
  && make ${MAKEARG} && env DESTDIR=${TARGER} make install
 RUN set -xe\
  && mkdir -p ${TARGER}/var/cache/nginx/client_body_temp\
