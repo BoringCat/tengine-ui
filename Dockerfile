@@ -1,42 +1,5 @@
-FROM node:22-alpine as nginx-ui-web-builder
-
-WORKDIR /app
-COPY nginx-ui/app /app
-ARG PNPM_VERSION=9.0.6
-RUN --mount=type=cache,target=/app/node_modules\
-    --mount=type=cache,target=/app/.pnpm-store\
-    set -xe\
- && npm install -g pnpm@${PNPM_VERSION}\
- && pnpm install\
- && pnpm build
-
-FROM golang:1.22-alpine as nginx-ui-builder
-WORKDIR /app
-COPY nginx-ui /app
-COPY --from=nginx-ui-web-builder /app/dist /app/app/dist
-ARG APK_MIRROR
-ARG APK_MIRROR_HTTPS
-RUN --mount=type=cache,target=/cache\
-    set -xe;\
-    [ ! -z "${APK_MIRROR}" -a "${APK_MIRROR}" != "dl-cdn.alpinelinux.org" ]\
- && sed -i "s/dl-cdn.alpinelinux.org/${APK_MIRROR}/g" /etc/apk/repositories ;\
- if [ "${APK_MIRROR_HTTPS}" = "true" ]; then\
-    sed -e "s!http://!https://!g" -i /etc/apk/repositories;\
- elif [ "${APK_MIRROR_HTTPS}" = "false" ]; then\
-    sed -e "s!https://!http://!g" -i /etc/apk/repositories;\
- fi\
- && apk add --update --cache-dir /cache/apk\
-    --virtual .build-deps\
-    gcc linux-headers alpine-sdk
-ARG GOPROXY
-RUN --mount=type=cache,target=/root/go/pkg\
-    --mount=type=cache,target=/root/.cache/go-build\
-    set -xe\
- && if [ ! -z "${GOPROXY}" ]; then go env -w GOPROXY="${GOPROXY}"; fi\
- && export CGO_ENABLED=1\
- && go build -tags=jsoniter\
-    -ldflags "-s -w -X 'github.com/0xJacky/Nginx-UI/settings.buildTime=`date +%s`'"\
-    -o nginx-ui main.go
+ARG NGINX_UI_VERSION=v2.0.0-beta.24
+FROM uozi/nginx-ui:${NGINX_UI_VERSION} as nginx-ui-bin
 
 FROM alpine as tengine-env
 WORKDIR /etc/nginx-ui
@@ -128,7 +91,7 @@ COPY docker/*.sh ${TARGER}/usr/local/bin/
 FROM tengine-env
 ARG TARGER=/dst
 COPY --from=tengine-builder ${TARGER}/ /
-COPY --from=nginx-ui-builder /app/nginx-ui /usr/local/bin/
+COPY --from=nginx-ui-bin /usr/local/bin/nginx-ui /usr/local/bin/
 VOLUME [ "/etc/nginx", "/var/log/nginx", "/app" ]
 EXPOSE 80 443 9000
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]

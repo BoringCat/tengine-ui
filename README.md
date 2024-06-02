@@ -29,17 +29,14 @@ docker build --build-arg TENGINE_BUILDFLAG='--with-http_ssl_module --with-http_v
   A: Debug每次都要下载太难受，本来apk add就慢了，还要不断重复下一样的东西？
 
 ### 可选参数
-- `PNPM_VERSION`  
-  当 nginx-ui 更新了 pnpm 时需要设置，默认值为 9.0.6，取自 v2.0.0-beta.24
+- `NGINX_UI_VERSION`  
+  nginx-ui 的版本
 - `APK_MIRROR`  
   alpine 镜像源，用来替换 dl-cdn.alpinelinux.org
 - `APK_MIRROR_HTTPS`  
   是否使用 https 镜像源，true 为是，false 为否，其他值不修改  
   注：最新 alpine 镜像默认为 https，此项可以不设置  
   PS：设置为 false 加上本地 APK_MIRROR，你就能在本地缓存apk包方便debug
-- `GOPROXY`  
-  下载 go pkg 时的代理站点，推荐 [goproxy.cn](https://goproxy.cn)  
-  示例: `--build-arg 'GOPROXY=https://goproxy.cn,direct'`
 - `TENGINE_VERSION`  
   默认 3.1.0。需要和本地源码包版本匹配
 - `BROTLI_VERISON`  
