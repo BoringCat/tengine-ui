@@ -63,7 +63,7 @@ jobs:
         tags:      ${{ steps.meta.outputs.tags }}
         labels:    ${{ steps.meta.outputs.labels }}
         build-args: |
-          NGINX_UI_VERSION=${{ githubgithub.ref_name }}
+          NGINX_UI_VERSION=${{ github.ref_name }}
           BUILD_THREADS=1
           TENGINE_VERSION=${{ vars.TENGINE_VERSION }}
           BROTLI_VERISON=${{ vars.BROTLI_VERISON }}
