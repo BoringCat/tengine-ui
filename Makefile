@@ -46,6 +46,7 @@ endif
 
 build: download
 	@docker build --pull\
+		--build-arg 'NGINX_UI_VERSION=$(NGINX_UI_VERSION)'\
 		--build-arg 'BUILD_THREADS=$(BUILD_THREADS)'\
 		--build-arg 'TENGINE_VERSION=$(TENGINE_VERSION)'\
 		--build-arg 'BROTLI_VERISON=$(BROTLI_VERISON)'\
@@ -61,6 +62,7 @@ buildx-publish: download
 	@docker buildx build --pull --push\
 		--platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6\
 		--builder $(DOCKER_BUILDX_BUILDER)\
+		--build-arg 'NGINX_UI_VERSION=$(NGINX_UI_VERSION)'\
 		--build-arg 'BUILD_THREADS=$(BUILD_THREADS)'\
 		--build-arg 'TENGINE_VERSION=$(TENGINE_VERSION)'\
 		--build-arg 'BROTLI_VERISON=$(BROTLI_VERISON)'\

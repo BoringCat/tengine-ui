@@ -7,4 +7,4 @@ set -e
 
 nginx -t
 nginx
-exec /usr/local/bin/nginx-ui "$@"
+/usr/local/bin/nginx-ui "$@"

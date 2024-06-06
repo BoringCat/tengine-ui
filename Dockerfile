@@ -82,7 +82,7 @@ RUN set -xe\
     ${TARGER}/etc/nginx/conf/streams-enabled\
     ${TARGER}/usr/local/etc\
  && touch ${TARGER}/var/log/nginx/error.log ${TARGER}/var/log/nginx/access.log\
- && cp -v /usr/src/logrotate /etc/logrotate.d/nginx\
+ && cp -v /usr/src/logrotate ${TARGER}/etc/logrotate.d/nginx\
  && cp -rv ${TARGER}/etc/nginx ${TARGER}/usr/local/etc/nginx
 COPY docker/*.sh ${TARGER}/usr/local/bin/
 
@@ -90,7 +90,7 @@ FROM tengine-env
 ARG TARGER=/dst
 COPY --from=tengine-builder ${TARGER}/ /
 COPY --from=nginx-ui-bin /usr/local/bin/nginx-ui /usr/local/bin/
-VOLUME [ "/etc/nginx", "/var/log/nginx", "/app" ]
+VOLUME [ "/etc/nginx", "/etc/nginx-ui", "/var/log/nginx", "/var/cache/nginx" ]
 EXPOSE 80 443 9000
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 CMD []
