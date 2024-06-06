@@ -42,7 +42,7 @@ jobs:
           ghcr.io/${{ github.repository }}
           docker.io/${{ github.repository }}
         tags: |
-          ${{ vars.GITHUB_REF_NAME }}
+          ${{ github.ref_name }}
           latest
 
     - name: Download Source Codes
@@ -63,7 +63,7 @@ jobs:
         tags:      ${{ steps.meta.outputs.tags }}
         labels:    ${{ steps.meta.outputs.labels }}
         build-args: |
-          NGINX_UI_VERSION=${{ vars.GITHUB_REF_NAME }}
+          NGINX_UI_VERSION=${{ githubgithub.ref_name }}
           BUILD_THREADS=1
           TENGINE_VERSION=${{ vars.TENGINE_VERSION }}
           BROTLI_VERISON=${{ vars.BROTLI_VERISON }}
