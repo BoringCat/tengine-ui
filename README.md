@@ -1,6 +1,8 @@
 # TengineUI
 基于 [![0xJacky/nginx-ui][nginx-ui]](https://github.com/0xJacky/nginx-ui) 替换后端为 [![tengine][tengine]](https://tengine.taobao.org) 的docker镜像
 
+![GitHub Tag](https://img.shields.io/github/v/tag/boringcat/tengine-ui) | ![workflow](https://img.shields.io/github/actions/workflow/status/boringcat/tengine-ui/docker-build.yml) | ![Docker Pulls](https://img.shields.io/docker/pulls/boringcat/tengine-ui)
+
 ## 使用
 ### 初始化文件
 运行以下命令会在 `/etc/nginx` 下创建 conf 和 html 文件夹，并覆盖存在的文件
